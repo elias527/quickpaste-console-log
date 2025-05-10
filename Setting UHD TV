@@ -1,0 +1,356 @@
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { Save, Check } from "lucide-react";
+import SettingsSection from "./SettingsSection";
+import { RadioOption, CheckboxOption, SliderOption, SelectOption } from "./ConfigurationOptions";
+
+const SettingsPanel = () => {
+  // Estado para cada grupo de configurações
+  const [resolution, setResolution] = useState("7.680 x 4.320p");
+  const [aiUpscaling, setAiUpscaling] = useState("8K");
+  const [pixelDensity, setPixelDensity] = useState("4.320 DPI");
+  const [refreshRate, setRefreshRate] = useState("Auto");
+  const [sync, setSync] = useState("Auto");
+  const [hdr, setHdr] = useState("Dolby Vision IQ");
+  const [imageMode, setImageMode] = useState("Dolby Vision IQ");
+  const [visualQuality, setVisualQuality] = useState("Ultra Alta Definição");
+  
+  // Estado para configurações avançadas
+  const [sdrRemasterization, setSdrRemasterization] = useState("HDR 10 Pro");
+  const [rgbColors, setRgbColors] = useState("48 Bit");
+  const [antiAliasing, setAntiAliasing] = useState("16x");
+  const [msaa, setMsaa] = useState("8x");
+  const [rayTracing, setRayTracing] = useState("Alta");
+  const [dlss, setDlss] = useState("Alta");
+  const [fsr, setFsr] = useState("Alta");
+  const [download, setDownload] = useState("Máxima Performance");
+  const [upload, setUpload] = useState("Máxima Performance");
+  const [streaming, setStreaming] = useState("Premium");
+  const [bitrate, setBitrate] = useState("Premium");
+  
+  // Checkboxes para recursos
+  const [allPs5Features, setAllPs5Features] = useState(true);
+  const [pssr, setPssr] = useState(true);
+  const [enhancedGames, setEnhancedGames] = useState(true);
+  const [gameBoost, setGameBoost] = useState(true);
+  const [localDimming, setLocalDimming] = useState(true);
+  
+  // Sliders para filtros
+  const [lagReduction, setLagReduction] = useState(70);
+  const [dragReduction, setDragReduction] = useState(60);
+  const [vibrationReduction, setVibrationReduction] = useState(50);
+  const [sharpness, setSharpness] = useState(80);
+  const [noiseReduction, setNoiseReduction] = useState(65);
+  const [grainReduction, setGrainReduction] = useState(70);
+
+  const handleApply = () => {
+    toast.success("Configurações aplicadas com sucesso!", {
+      description: "As novas configurações foram aplicadas.",
+    });
+  };
+
+  const handleSave = () => {
+    toast.success("Configurações salvas com sucesso!", {
+      description: "Suas preferências foram salvas e serão aplicadas automaticamente.",
+    });
+  };
+
+  return (
+    <div className="container mx-auto px-4 pb-10">
+      <SettingsSection
+        title="Resolução e Qualidade de Imagem"
+        description="Configure a resolução de exibição e a qualidade de imagem para seus jogos e mídia."
+      >
+        <RadioOption
+          title="Resolução"
+          options={["7.680 x 4.320", "3.840 x 2.160p", "2.556 x 1.440p"]}
+          value={resolution}
+          onChange={setResolution}
+        />
+
+        <RadioOption
+          title="AI Upscaling Pro"
+          options={["8K", "4K", "2K"]}
+          value={aiUpscaling}
+          onChange={setAiUpscaling}
+        />
+
+        <RadioOption
+          title="Densidade do Pixel"
+          options={["1.440 DPI", "2.160 DPI", "4.320 DPI"]}
+          value={pixelDensity}
+          onChange={setPixelDensity}
+        />
+      </SettingsSection>
+
+      <SettingsSection
+        title="Desempenho e Sincronização"
+        description="Configurações de desempenho, taxa de atualização e sincronização."
+      >
+        <RadioOption
+          title="Taxa de Atualização"
+          options={["120 Hz", "60 Hz", "Auto"]}
+          value={refreshRate}
+          onChange={setRefreshRate}
+        />
+
+        <RadioOption
+          title="Sincronização"
+          options={["V-Sync", "G-Sync", "Free-Sync", "Auto", "Desligar"]}
+          value={sync}
+          onChange={setSync}
+        />
+      </SettingsSection>
+
+      <SettingsSection
+        title="Modos de Imagem"
+        description="Escolha entre diferentes modos de imagem e configurações HDR."
+      >
+        <RadioOption
+          title="HDR"
+          options={["Dolby Vision IQ", "HDR 10 Pro", "HDR 10 Plus"]}
+          value={hdr}
+          onChange={setHdr}
+        />
+
+        <RadioOption
+          title="Modo de Imagem"
+          options={["Dolby Vision IQ", "Foto Ultra Realista 3D", "Nvidia DLSS 4", "AMD FSR 4", "Padrão"]}
+          value={imageMode}
+          onChange={setImageMode}
+        />
+
+        <RadioOption
+          title="Qualidade de Visualização"
+          options={["Ultra Alta Definição", "Alta Definição", "Média Definição", "Baixa Definição"]}
+          value={visualQuality}
+          onChange={setVisualQuality}
+        />
+      </SettingsSection>
+
+      <SettingsSection
+        title="Configurações Avançadas"
+        description="Configurações técnicas avançadas para maior personalização."
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <SelectOption
+            title="Remasterização SDR"
+            options={[
+              { value: "Dolby Vision", label: "Dolby Vision" },
+              { value: "HDR 10 Pro", label: "HDR 10 Pro" },
+              { value: "HDR 10 Plus", label: "HDR 10 Plus" }
+            ]}
+            value={sdrRemasterization}
+            onChange={setSdrRemasterization}
+          />
+
+          <SelectOption
+            title="Cores RGB"
+            options={[
+              { value: "48 Bit", label: "48 Bit" },
+              { value: "24 Bit", label: "24 Bit" },
+              { value: "16 Bit", label: "16 Bit" }
+            ]}
+            value={rgbColors}
+            onChange={setRgbColors}
+          />
+
+          <SelectOption
+            title="Anti-Aliasing"
+            options={[
+              { value: "16x", label: "16x" },
+              { value: "8x", label: "8x" },
+              { value: "4x", label: "4x" }
+            ]}
+            value={antiAliasing}
+            onChange={setAntiAliasing}
+          />
+
+          <SelectOption
+            title="MSAA"
+            options={[
+              { value: "8x", label: "8x" },
+              { value: "4x", label: "4x" },
+              { value: "2x", label: "2x" }
+            ]}
+            value={msaa}
+            onChange={setMsaa}
+          />
+
+          <SelectOption
+            title="Ray-Tracing Avançado"
+            options={[
+              { value: "Alta", label: "Alta" },
+              { value: "Média", label: "Média" },
+              { value: "Baixa", label: "Baixa" }
+            ]}
+            value={rayTracing}
+            onChange={setRayTracing}
+          />
+
+          <SelectOption
+            title="Nvidia DLSS 4"
+            options={[
+              { value: "Alta", label: "Alta" },
+              { value: "Média", label: "Média" },
+              { value: "Baixa", label: "Baixa" }
+            ]}
+            value={dlss}
+            onChange={setDlss}
+          />
+
+          <SelectOption
+            title="AMD FSR 4"
+            options={[
+              { value: "Alta", label: "Alta" },
+              { value: "Média", label: "Média" },
+              { value: "Baixa", label: "Baixa" }
+            ]}
+            value={fsr}
+            onChange={setFsr}
+          />
+
+          <SelectOption
+            title="Download"
+            options={[
+              { value: "Padrão", label: "Padrão" },
+              { value: "Média", label: "Média Performance" },
+              { value: "Máxima", label: "Máxima Performance" }
+            ]}
+            value={download}
+            onChange={setDownload}
+          />
+
+          <SelectOption
+            title="Upload"
+            options={[
+              { value: "Padrão", label: "Padrão" },
+              { value: "Média", label: "Média Performance" },
+              { value: "Máxima", label: "Máxima Performance" }
+            ]}
+            value={upload}
+            onChange={setUpload}
+          />
+
+          <SelectOption
+            title="Streaming"
+            options={[
+              { value: "Média", label: "Média" },
+              { value: "Alta", label: "Alta" },
+              { value: "Premium", label: "Premium" }
+            ]}
+            value={streaming}
+            onChange={setStreaming}
+          />
+
+          <SelectOption
+            title="Bitrate"
+            options={[
+              { value: "Média", label: "Média" },
+              { value: "Alta", label: "Alta" },
+              { value: "Premium", label: "Premium" }
+            ]}
+            value={bitrate}
+            onChange={setBitrate}
+          />
+        </div>
+
+        <div className="mt-6 space-y-3">
+          <CheckboxOption
+            title="Ativar todas as funções do Playstation 5 Pro"
+            checked={allPs5Features}
+            onChange={setAllPs5Features}
+          />
+          <CheckboxOption
+            title="Ativar Super-resolução espectral do Playstation 5 Pro (PSSR)"
+            checked={pssr}
+            onChange={setPssr}
+          />
+          <CheckboxOption
+            title="Ativar jogos Aprimorados para Playstation 5 Pro"
+            checked={enhancedGames}
+            onChange={setEnhancedGames}
+          />
+          <CheckboxOption
+            title="Ativar Game Boost e Retrocompatibilidade para Playstation 5 Pro"
+            checked={gameBoost}
+            onChange={setGameBoost}
+          />
+          <CheckboxOption
+            title="Full Array Local Dimming"
+            checked={localDimming}
+            onChange={setLocalDimming}
+          />
+        </div>
+      </SettingsSection>
+
+      <SettingsSection
+        title="Filtros de Aprimoramento"
+        description="Ajuste os filtros para um desempenho otimizado durante os jogos."
+      >
+        <SliderOption
+          title="Redução de Atraso"
+          min={10}
+          max={100}
+          value={lagReduction}
+          onChange={setLagReduction}
+        />
+        <SliderOption
+          title="Redução de Arrasto"
+          min={10}
+          max={100}
+          value={dragReduction}
+          onChange={setDragReduction}
+        />
+        <SliderOption
+          title="Redução de Vibração"
+          min={10}
+          max={100}
+          value={vibrationReduction}
+          onChange={setVibrationReduction}
+        />
+        <SliderOption
+          title="Nitidez"
+          min={10}
+          max={100}
+          value={sharpness}
+          onChange={setSharpness}
+        />
+        <SliderOption
+          title="Redução de Ruídos"
+          min={10}
+          max={100}
+          value={noiseReduction}
+          onChange={setNoiseReduction}
+        />
+        <SliderOption
+          title="Redução de Granulados"
+          min={10}
+          max={100}
+          value={grainReduction}
+          onChange={setGrainReduction}
+        />
+      </SettingsSection>
+
+      <div className="mt-8 flex justify-end space-x-4">
+        <Button 
+          onClick={handleApply} 
+          className="ps5-button flex items-center gap-2"
+        >
+          <Check size={18} />
+          Aplicar
+        </Button>
+        <Button 
+          onClick={handleSave} 
+          className="ps5-button bg-ps5-blue flex items-center gap-2"
+        >
+          <Save size={18} />
+          Salvar
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default SettingsPanel;
